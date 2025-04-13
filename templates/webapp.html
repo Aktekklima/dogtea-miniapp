@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DogTea Mining - WebApp</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container py-3 webapp-container">
+        <div id="loadingScreen" class="loading-screen">
+            <div class="spinner-grow text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 loading-text">Loading...</p>
+        </div>
+
+        <div id="mainContent" class="d-none">
+            <!-- Profile Section -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <svg class="me-3" width="48" height="48" viewBox="0 0 24 24">
+                            <use href="{{ url_for('static', filename='assets/dog_icons.svg') }}#user-profile"></use>
+                        </svg>
+                        <div>
+                            <h2 class="fs-4 fw-bold mb-0" id="username">Username</h2>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-primary me-2">Level <span id="userLevel">1</span></span>
+                                <span class="badge bg-info">XP: <span id="userXp">0</span></span>
+                            </div>
+                        </div>
+                        <div class="ms-auto text-end">
+                            <h3 class="fs-5 mb-0"><span id="dogteaBalance">0</span> DOGTEA</h3>
+                            <small class="text-muted" id="gamesLeft">2 games left today</small>
+                        </div>
+                    </div>
+                    <div class="progress mb-0" role="progressbar" aria-label="XP Progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" id="xpProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <ul class="nav nav-pills nav-fill mb-4">
+                <li class="nav-item">
+                    <button class="nav-link active" id="dogsTab">My Dogs</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="gamesTab">Games</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="shopTab">Shop</button>
+                </li>
+            </ul>
+
+            <!-- Dogs Section -->
+            <div id="dogsSection" class="tab-section">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fs-5 mb-0">Your Dogs</h3>
+                    <span class="badge bg-secondary" id="dogCount">0 Dogs</span>
+                </div>
+                <div id="dogsList" class="row row-cols-1 row-cols-md-2 g-3 mb-3">
+                    <!-- Dogs will be dynamically added here -->
+                    <div class="col placeholder-col">
+                        <div class="card h-100 placeholder-card">
+                            <div class="card-body text-center d-flex flex-column justify-content-center">
+                                <p class="fs-5 text-muted mb-0">No dogs yet</p>
+                                <p class="text-muted">Visit the shop to buy your first dog!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid mt-2">
+                    <button class="btn btn-outline-primary" id="miningBtn">
+                        <i class="bi bi-gem"></i> Collect Mining Rewards
+                    </button>
+                </div>
+            </div>
+
+            <!-- Games Section -->
+            <div id="gamesSection" class="tab-section d-none">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fs-5 mb-0">Mini Games</h3>
+                    <span class="badge bg-info" id="gamesBadge">2 games left</span>
+                </div>
+                <div class="row row-cols-1 row-cols-md-2 g-3">
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-123 fs-2 me-2"></i>
+                                    <h4 class="card-title mb-0">Guess Number</h4>
+                                </div>
+                                <p class="card-text">Guess a number between 1-100. Fewer tries means more rewards!</p>
+                                <button class="btn btn-primary w-100" id="guessGameBtn">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-hand-index-thumb fs-2 me-2"></i>
+                                    <h4 class="card-title mb-0">Fast Clicks</h4>
+                                </div>
+                                <p class="card-text">Click as fast as you can within 10 seconds to earn rewards!</p>
+                                <button class="btn btn-primary w-100" id="clickGameBtn">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-gift fs-2 me-2"></i>
+                                    <h4 class="card-title mb-0">Loot Box</h4>
+                                </div>
+                                <p class="card-text">Open a mystery box to discover your DOGTEA rewards!</p>
+                                <button class="btn btn-primary w-100" id="lootBoxBtn">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-question-lg fs-2 me-2"></i>
+                                    <h4 class="card-title mb-0">Dog Quiz</h4>
+                                </div>
+                                <p class="card-text">Test your knowledge of dog facts to earn DOGTEA tokens!</p>
+                                <button class="btn btn-primary w-100" id="quizGameBtn">Play</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-tv fs-2 me-3"></i>
+                            <div>
+                                <h4 class="fs-5 mb-1">Watch Ad for Extra Game</h4>
+                                <p class="card-text text-muted mb-0">Watch an advertisement to get an extra game play!</p>
+                            </div>
+                            <button class="btn btn-outline-secondary ms-auto" id="watchAdBtn">
+                                <i class="bi bi-play-btn"></i> Watch Ad
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop Section -->
+            <div id="shopSection" class="tab-section d-none">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fs-5 mb-0">Dog Shop</h3>
+                    <span class="badge bg-warning text-dark">Uses TON</span>
+                </div>
+                <div class="row row-cols-1 row-cols-md-2 g-3" id="shopList">
+                    <!-- Dogs will be dynamically added here -->
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" class="me-2">
+                                        <use href="{{ url_for('static', filename='assets/dog_icons.svg') }}#labrador"></use>
+                                    </svg>
+                                    <div>
+                                        <h4 class="card-title mb-0">Labrador</h4>
+                                        <small class="text-muted">Balanced stats, good for beginners</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mt-3">
+                                    <div>
+                                        <p class="mb-0"><strong>Mining Power:</strong> 1.0</p>
+                                        <p class="mb-0"><strong>Strength:</strong> 10</p>
+                                    </div>
+                                    <button class="btn btn-primary ms-auto" data-breed="Labrador" data-price="5">
+                                        Buy for 5 TON
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" class="me-2">
+                                        <use href="{{ url_for('static', filename='assets/dog_icons.svg') }}#german-shepherd"></use>
+                                    </svg>
+                                    <div>
+                                        <h4 class="card-title mb-0">German Shepherd</h4>
+                                        <small class="text-muted">High strength, good for battles</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mt-3">
+                                    <div>
+                                        <p class="mb-0"><strong>Mining Power:</strong> 1.0</p>
+                                        <p class="mb-0"><strong>Strength:</strong> 15</p>
+                                    </div>
+                                    <button class="btn btn-primary ms-auto" data-breed="German Shepherd" data-price="8">
+                                        Buy for 8 TON
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game UI Overlays -->
+            <div id="gameOverlay" class="game-overlay d-none">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0" id="gameTitle">Game Title</h4>
+                        <button class="btn-close" id="closeGameBtn"></button>
+                    </div>
+                    <div class="card-body" id="gameContent">
+                        <!-- Game content will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Battle View Template -->
+    <template id="battleTemplate">
+        <div class="battle-arena">
+            <div class="battle-header mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="battle-dog">
+                        <h5 class="mb-1">Your Dog</h5>
+                        <div class="d-flex align-items-center">
+                            <svg width="36" height="36" viewBox="0 0 24 24" class="me-2">
+                                <use href="" id="yourDogIcon"></use>
+                            </svg>
+                            <div>
+                                <p class="mb-0 fw-bold" id="yourDogName">Dog Name</p>
+                                <div class="progress" style="height: 8px; width: 100px;">
+                                    <div class="progress-bar bg-success" id="yourDogHP" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="battle-vs">VS</div>
+                    <div class="battle-dog text-end">
+                        <h5 class="mb-1">Opponent</h5>
+                        <div class="d-flex align-items-center justify-content-end">
+                            <div>
+                                <p class="mb-0 fw-bold" id="opponentDogName">Dog Name</p>
+                                <div class="progress" style="height: 8px; width: 100px;">
+                                    <div class="progress-bar bg-danger" id="opponentDogHP" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <svg width="36" height="36" viewBox="0 0 24 24" class="ms-2">
+                                <use href="" id="opponentDogIcon"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="battleLog" class="battle-log mb-3">
+                <p class="battle-message">Battle started! Choose your action.</p>
+            </div>
+            <div id="battleActions" class="battle-actions">
+                <div class="row g-2">
+                    <div class="col-4">
+                        <button class="btn btn-danger w-100" id="attackBtn">
+                            <i class="bi bi-lightning-charge"></i> Attack
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-warning w-100 text-dark" id="specialBtn">
+                            <i class="bi bi-stars"></i> Special
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-success w-100" id="defendBtn">
+                            <i class="bi bi-shield"></i> Defend
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Dog Card Template -->
+    <template id="dogCardTemplate">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <svg width="48" height="48" viewBox="0 0 24 24" class="me-2 dog-icon">
+                            <use href="" class="dog-icon-use"></use>
+                        </svg>
+                        <div>
+                            <h4 class="dog-name card-title mb-0">Dog Name</h4>
+                            <small class="dog-breed text-muted">Breed</small>
+                        </div>
+                        <div class="ms-auto">
+                            <span class="badge bg-primary dog-level">Level 1</span>
+                        </div>
+                    </div>
+                    <div class="dog-stats mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Strength:</span>
+                            <span class="dog-strength">10</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Mining Power:</span>
+                            <span class="dog-mining">1.0</span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary flex-grow-1 upgrade-btn">
+                            <i class="bi bi-arrow-up-circle"></i> Upgrade
+                            <span class="upgrade-cost">1.0 DOGTEA</span>
+                        </button>
+                        <button class="btn btn-outline-danger flex-grow-1 battle-btn">
+                            <i class="bi bi-sword"></i> Battle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/webapp.js') }}"></script>
+</body>
+</html>

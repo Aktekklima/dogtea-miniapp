@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DogTea Mining Bot</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container py-4">
+        <header class="pb-3 mb-4 border-bottom">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <svg class="logo me-3" width="48" height="48" viewBox="0 0 24 24">
+                        <use href="{{ url_for('static', filename='assets/dog_icons.svg') }}#dog-main"></use>
+                    </svg>
+                    <h1 class="fs-4 fw-bold">DogTea Mining Bot</h1>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-globe"></i> Language
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" href="#" data-lang="en">English</a></li>
+                        <li><a class="dropdown-item" href="#" data-lang="tr">Türkçe</a></li>
+                        <li><a class="dropdown-item" href="#" data-lang="ru">Русский</a></li>
+                        <li><a class="dropdown-item" href="#" data-lang="ar">العربية</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+            <div class="container-fluid py-5">
+                <h2 class="display-5 fw-bold">Mine DOGTEA with your virtual dogs!</h2>
+                <p class="col-md-10 fs-4">Start mining DOGTEA tokens with your virtual dogs. Buy, upgrade, and battle with your dogs to earn more tokens!</p>
+                <div class="d-flex gap-2">
+                    <a href="https://t.me/DogteaMinerBot" class="btn btn-primary btn-lg">
+                        <i class="bi bi-telegram"></i> Open in Telegram
+                    </a>
+                    <a href="{{ url_for('webapp') }}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-window"></i> Open WebApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-md-stretch mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="h-100 p-4 text-bg-primary rounded-3">
+                    <h2>Features</h2>
+                    <ul class="list-unstyled fs-5">
+                        <li><i class="bi bi-check2-circle"></i> Dog-themed mining system</li>
+                        <li><i class="bi bi-check2-circle"></i> DOGTEA token economy</li>
+                        <li><i class="bi bi-check2-circle"></i> Mini-games with rewards</li>
+                        <li><i class="bi bi-check2-circle"></i> Dog upgrade system</li>
+                        <li><i class="bi bi-check2-circle"></i> Battle system with rewards</li>
+                        <li><i class="bi bi-check2-circle"></i> TON payment integration</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="h-100 p-4 bg-body-tertiary border rounded-3">
+                    <h2>How to Start</h2>
+                    <ol class="fs-5">
+                        <li>Open the bot in Telegram</li>
+                        <li>Use /start to begin</li>
+                        <li>Buy your first dog with TON</li>
+                        <li>Play mini-games to earn DOGTEA</li>
+                        <li>Upgrade your dogs to increase mining</li>
+                        <li>Battle other users to win more tokens</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="fs-4 mb-0">Available Dogs</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 bg-body-tertiary border">
+                                    <div class="card-body text-center">
+                                        <svg width="80" height="80" viewBox="0 0 24 24" class="dog-icon mb-3">
+                                            <use href="{{ url_for('static', filename='assets/dog_icons.svg') }}#labrador"></use>
+                                        </svg>
+                                        <h5 class="card-title">Labrador</h5>
+                                        <p class="card-text">Best for beginners, balanced stats</p>
+                                        <p class="mb-0"><small class="text-body-secondary">5 TON</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 bg-body-tertiary border">
+                                    <div class="card-body text-center">
+                                        <svg width="80" height="80" viewBox="0 0 24 24" class="dog-icon mb-3">
+                                            <use href="{{ url_for('static', filename='assets/dog_icons.svg') }}#husky"></use>
+                                        </svg>
+                                        <h5 class="card-title">Siberian Husky</h5>
+                                        <p class="card-text">Great for mining, higher mining power</p>
+                                        <p class="mb-0"><small class="text-body-secondary">15 TON</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 bg-body-tertiary border">
+                                    <div class="card-body text-center">
+                                        <svg width="80" height="80" viewBox="0 0 24 24" class="dog-icon mb-3">
+                                            <use href="{{ url_for('static', filename='assets/dog_icons.svg') }}#bulldog"></use>
+                                        </svg>
+                                        <h5 class="card-title">Bulldog</h5>
+                                        <p class="card-text">Strong in battles, high strength</p>
+                                        <p class="mb-0"><small class="text-body-secondary">10 TON</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="fs-4 mb-0">Mini-games</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <div class="card h-100 bg-body-tertiary border">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-123 fs-1 mb-3"></i>
+                                        <h5 class="card-title">Guess Number</h5>
+                                        <p class="card-text">Guess the correct number from 1-100</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card h-100 bg-body-tertiary border">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-hand-index-thumb fs-1 mb-3"></i>
+                                        <h5 class="card-title">Fast Clicks</h5>
+                                        <p class="card-text">Click as fast as you can to earn rewards</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card h-100 bg-body-tertiary border">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-gift fs-1 mb-3"></i>
+                                        <h5 class="card-title">Loot Box</h5>
+                                        <p class="card-text">Open a box to discover your prize</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card h-100 bg-body-tertiary border">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-question-lg fs-1 mb-3"></i>
+                                        <h5 class="card-title">Dog Quiz</h5>
+                                        <p class="card-text">Test your knowledge of dog facts</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="pt-3 mt-4 text-body-secondary border-top">
+            <div class="d-flex justify-content-between align-items-center">
+                <p>&copy; 2023 DogTea Mining Bot</p>
+                <div>
+                    <a href="#" class="text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-decoration-none">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
