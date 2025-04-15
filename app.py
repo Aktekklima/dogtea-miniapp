@@ -17,7 +17,7 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 # Flask app
-app = Flask(name)
+app = Flask
 app.secret_key = os.environ.get("SESSION_SECRET", "dogtea_secret_key")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
