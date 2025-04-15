@@ -9,7 +9,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 # Logging
 logging.basicConfig(level=logging.DEBUG,
                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(name)
+logger = logging.getLogger
 
 class Base(DeclarativeBase):
     pass
